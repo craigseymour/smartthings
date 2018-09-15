@@ -58,8 +58,11 @@ metadata {
             state "synced", action:"sync" , label:"Sync", backgroundColor:"#00a800"
             state "syncing" , label:"Syncing", backgroundColor:"#a8a800"
         }
+        valueTile("scene", "device.scene", decoration: "flat", width: 2, height: 2) {
+            state "default", label:'(DEBUG) Scene: ${currentValue}'
+        }
         main(["mainTitle"])
-        details(["mainTitle", "up", "power", "refresh", "down", "sync", "calibrate"])
+        details(["mainTitle", "up", "power", "refresh", "down", "sync", "calibrate", "scene"])
     }
 
     preferences {
