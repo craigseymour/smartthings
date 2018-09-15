@@ -14,6 +14,7 @@ metadata {
         capability "Configuration"
 
         attribute "syncStatus", "enum", ["syncing", "synced"]
+        attribute "scene", "number"
 
         command "sync"
         command "stop"        
@@ -202,6 +203,15 @@ def zwaveEvent(physicalgraph.zwave.commands.meterv3.MeterReport cmd) {
 
 def zwaveEvent(physicalgraph.zwave.commands.configurationv1.ConfigurationReport cmd) {
     log.debug("zwaveEvent(): Configuration Report received: ${cmd}")
+}
+
+def zwaveEvent(physicalgraph.zwave.commands.sceneactivationv1.SceneActivationSet cmd) {
+	logging("zwaveEvent(): Scene Activation Set received: ${cmd}","trace")
+	def result = []
+	result << createEvent(name: "scene", value: "$cmd.sceneId", data: [switchType: "$settings.param14"], descriptionText: "Scene id ${cmd.sceneId} was activated", isStateChange: true)
+	logging("Scene #${cmd.sceneId} was activated.","info")
+
+	return result
 }
 
 def updated() {
@@ -415,5 +425,11 @@ private getParamsMd() {
     "Power report threshold available settings: 1-100 (1-100%).\n" +
     "Value of 0 means the reports are turned off."]
 
+    [id: 50, size:1, type: "number", range: "0..1", defaultValue: 0, required: false, readonly: false,
+        name: "Scenes/associations activation",
+        description: "Parameter determines whether scenes or associations are activated by the switch buttons.\n" +
+    "0 – associations activation\n" + 
+    "1 – scenes activation"
+    ]
 ]
 }
