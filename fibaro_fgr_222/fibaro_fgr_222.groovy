@@ -427,12 +427,10 @@ private getParamsMd() {
     "The parameter defines a change that needs to occur in order to trigger the report. The value is a percentage of the previous report.\n" +
     "Power report threshold available settings: 1-100 (1-100%).\n" +
     "Value of 0 means the reports are turned off."]
-
-    [id: 50, size:1, type: "number", range: "0..1", defaultValue: 0, required: false, readonly: false,
-        name: "Scenes/associations activation",
-        description: "Parameter determines whether scenes or associations are activated by the switch buttons.\n" +
-    "0 – associations activation\n" + 
-    "1 – scenes activation"
-    ]
+    [id: 50, size: 1, type: "enum", defaultValue: "0", required: false, readonly: false,
+         name: "Scene Activation",
+         description : "Defines if SCENE_ACTIVATION_SET commands are sent.",
+         options: ["0" : "0: Function DISABLED",
+                   "1" : "1: Function ENABLED"] ],
 ]
 }
